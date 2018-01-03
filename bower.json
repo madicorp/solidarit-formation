@@ -1,0 +1,18 @@
+{
+  "name": "formation",
+  "description": "A radical new plugin for WordPress!",
+  "license": "GPLv2",
+  "authors": [
+    "MADICORP"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "generator-plugin-wp": {
+    "name": "Formation",
+    "homepage": "https://madi-corp.net",
+    "description": "A radical new plugin for WordPress!",
+    "version": "0.1.0",
+    "author": "MADICORP",
+    "authoremail": "contact@madi-corp.net",
+    "authorurl": "https://madi-corp.net",
+    "license": "GPLv2",
+    "slug": "formation",
+    "classname": "Formation",
+    "mainclassname": "Formation",
+    "classprefix": "F_",
+    "prefix": "formation",
+    "year": 2017,
+    "currentVersionWP": "4.8.1",
+    "plugingenversion": "0.20.2"
+  }
+}
