@@ -10,7 +10,15 @@
 
 ## Description ##
 
-A radical new plugin for WordPress!
+WP Plugin for training and subscriber management!
+
+## Installation ##
+
+### Manual Installation ###
+
+1. Upload  `/solidarit-formation/build`, `solidarit-formation/templates`, `solidarit-formation/vendor`, `solidarit-formation/includes` directories and `solidarit-formation/formation.php` file to the `/wp-content/plugins/` directory.
+2. Activate Formation through the 'Plugins' menu in WordPress.
+
 
 ## Getting Started
 
@@ -35,14 +43,6 @@ npm run dev
 
 * [Writing Code](./docs/writing-code.md)
 
-
-
-## Installation ##
-
-### Manual Installation ###
-
-1. Upload  `/solidarit-formation/build`, `solidarit-formation/templates`, `solidarit-formation/vendor`, `solidarit-formation/includes` directories and `solidarit-formation/formation.php` file to the `/wp-content/plugins/` directory.
-2. Activate Formation through the 'Plugins' menu in WordPress.
 
 ## Frequently Asked Questions ##
 
