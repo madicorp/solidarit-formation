@@ -18,7 +18,7 @@ A radical new plugin for WordPress!
 2. Navigate to the plugin directory, install `npm` dependencies, and run the dev build command:
 
 ```
-cd /path/to/wordpress/wp-content/plugins/wp-react-boilerplate
+cd /path/to/wordpress/wp-content/plugins/solidarit-formation
 npm install
 npm run dev
 ```
