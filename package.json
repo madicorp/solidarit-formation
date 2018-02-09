@@ -9,6 +9,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.17.1",
     "classnames": "2.2.5",
     "interact.js": "^1.2.8",
     "jquery": "^3.2.1",

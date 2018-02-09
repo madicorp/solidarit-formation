@@ -11,7 +11,7 @@ export default class CustomTimeline extends Timeline {
                                   canvasTimeEnd={canvasTimeEnd}
                                   canvasWidth={canvasWidth}
                                   lineHeight={this.props.lineHeight}
-                                  minUnit={minUnit}
+                                  minUnit={"day"}
                                   timeSteps={timeSteps}
                                   headerLabelGroupHeight={headerLabelGroupHeight}
                                   headerLabelHeight={headerLabelHeight}
@@ -26,5 +26,10 @@ export default class CustomTimeline extends Timeline {
                                   headerLabelFormats={this.props.headerLabelFormats}
                                   subHeaderLabelFormats={this.props.subHeaderLabelFormats}/>
         )
+    }
+
+    componentDidMount(){
+        this.changeZoom(5);
+
     }
 }

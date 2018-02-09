@@ -2,6 +2,7 @@ import React from 'react';
 import CustomTimeline from './custom-timeline';
 import moment from 'moment';
 import FrontModal from './modal';
+import Formation from './formation';
 import $ from 'jquery';
 
 require('./style.scss');
@@ -140,8 +141,6 @@ export default class Front extends React.Component {
                                             </div>
                                             <div>
                                                 <CustomTimeline groups={this.groups}
-                                                                maxZoom={24 * 60 * 60 * 1000}
-                                                                minZoom={48 * 60 * 60 * 1000}
                                                                 items={this.items}
                                                                 itemTouchSendsClick={true}
                                                                 onItemSelect={this.handleOpenModal}
@@ -165,233 +164,13 @@ export default class Front extends React.Component {
 
     renderComingFormation() {
         return (
-            <div className="vc_row wpb_row vc_row-fluid padding_bottom_150">
-                <div className="wpb_column vc_column_container vc_col-sm-12">
-                    <div className="vc_column-inner ">
-                        <div className="wpb_wrapper">
-                            <h4 className="box-title">Formations a venir</h4>
-                            <div className="vc_row wpb_row vc_inner vc_row-fluid container">
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Formation 1</h4>
-                                                        <p>New gadgets</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800"
-                                                             height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Formation 2</h4>
-                                                        <p>Workspace basics</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Formation 3</h4>
-                                                        <p>Camera lenses</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#" target=" _blank"
-                                                   title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Formation 4</h4>
-                                                        <p>Perfect shot</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Formation 5</h4>
-                                                        <p>New gadgets</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <Formation title={"Formations à venir"}/>
         )
     }
 
     renderPreviousFormation() {
         return (
-            <div className="vc_row wpb_row vc_row-fluid padding_top_50">
-                <div className="wpb_column vc_column_container vc_col-sm-12">
-                    <div className="vc_column-inner ">
-                        <div className="wpb_wrapper">
-                            <h4 className="box-title">Historique formations</h4>
-                            <div className="vc_row wpb_row vc_inner vc_row-fluid container">
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-1-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Catalog of ideas</h4>
-                                                        <p>New gadgets</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800"
-                                                             height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-2-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Get crafty</h4>
-                                                        <p>Workspace basics</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#"
-                                                   target=" _blank" title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-3-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>Perfect photos</h4>
-                                                        <p>Camera lenses</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="wpb_column vc_column_container vc_col-sm-3">
-                                    <div className="vc_column-inner ">
-                                        <div className="wpb_wrapper">
-                                            <div className="kd-photobox opacity-effect">
-                                                <a href="#" target=" _blank"
-                                                   title="">
-                                                    <div className="photobox-img">
-                                                        <img width="800" height="600"
-                                                             src="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4.jpg"
-                                                             className="attachment-full" alt=""
-                                                             srcSet="https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4.jpg 800w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4-300x225.jpg 300w, https://keydesign-themes.com/incubator/wp-content/uploads/2016/09/photobox-4-768x576.jpg 768w"
-                                                             sizes="(max-width: 800px) 100vw, 800px"/>
-                                                    </div>
-                                                    <div className="phb-content text-center">
-                                                        <h4>High performance</h4>
-                                                        <p>Perfect shot</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           <Formation title={"Historique formations"}/>
         )
     }
 

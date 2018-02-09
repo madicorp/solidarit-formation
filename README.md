@@ -35,9 +35,9 @@ npm run dev
 
 `npm install` - Install dependencies
 
-`npm run build` – Generate production versions of static assets.
-
 `npm run dev` - Start webpack in "watch" mode so that the assets are automatically compiled when a file changes.
+
+`npm run build` – Generate production versions of static assets.
 
 ## Documentation
 
