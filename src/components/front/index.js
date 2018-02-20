@@ -4,10 +4,9 @@ import moment from 'moment';
 import FrontModal from './modal';
 import Formation from './formation';
 import $ from 'jquery';
+import FormationStore from "../../stores/FormationStore";
 
 require('./style.scss');
-
-
 
 
 export default class Front extends React.Component {
@@ -21,70 +20,79 @@ export default class Front extends React.Component {
         this.renderPreviousFormation = this.renderPreviousFormation.bind(this);
         this.renderTimeline = this.renderTimeline.bind(this);
         this.renderModal = this.renderModal.bind(this);
+        this.formationsListener.bind(this);
+        this.formationTypesListener.bind(this);
+
         this.state = {
             showModal: false,
             modalTitle: "title",
             modalBody: "body",
+            formationTypes: [],
+            formations: [],
+            selectedFormation: {},
+            timeStart:moment().add(-2, 'day'),
+            timeEnd:moment().add(7, 'day')
+
         };
+    }
 
-        this.groups = [
-            {id: 1, title: 'Formation 1'},
-            {id: 2, title: 'Formation 2'},
-            {id: 3, title: 'Formation 3'},
-            {id: 4, title: 'Formation 4'},
-            {id: 5, title: 'Formation 5'}
-        ];
+    componentWillMount() {
+        FormationStore
+            .on("formations", this.formationsListener.bind(this))
+            .on("formationTypes", this.formationTypesListener.bind(this))
+    }
 
 
-        this.itemProps = {
+    formationsListener() {
+        const itemProps = {
             // these optional attributes are passed to the root <div /> of each item as <div {...itemProps} />
             'data-custom-attribute': 'Random content',
             'aria-hidden': true,
             //onItemSelect: this.handleOpenModal
         };
-
-
-        this.items = [
-            {
-                id: 1, group: 1, title: 'session 3 item 1',
+        const formations = FormationStore.getFormations();
+        const items = formations.map((formation) => {
+            return {
+                id: formation.ID,
+                group: formation.formation_type[0].term_id,
+                title: formation.post_title,
                 canMove: false, canResize: false, canChangeGroup: false,
-                start_time: moment(), end_time: moment().add(9, 'hour'),
-                itemProps: this.itemProps
-
-            },
-            {
-                id: 2, group: 2, title: 'session 1 item 2',
-                canMove: false, canResize: false, canChangeGroup: false,
-                start_time: moment().add(12, 'hour'), end_time: moment().add(1, 'day').add(8, 'hour'),
-                itemProps: this.itemProps
-
-            },
-            {
-                id: 3, group: 3, title: 'session 2 item 3',
-                canMove: false, canResize: false, canChangeGroup: false,
-                start_time: moment().add(10, 'hour'), end_time: moment().add(1, 'day').add(5, 'hour'),
-                itemProps: this.itemProps
-
-            }, {
-                id: 4, group: 4, title: 'session 5 item 2',
-                canMove: false, canResize: false, canChangeGroup: false,
-                start_time: moment().add(-0.5, 'hour'), end_time: moment().add(1, 'day').add(0.5, 'hour'),
-                itemProps: this.itemProps
-
-            },
-            {
-                id: 5, group: 5, title: 'session 1 item 3',
-                canMove: false, canResize: false, canChangeGroup: false,
-                start_time: moment().add(1, 'day').add(2, 'hour'), end_time: moment().add(1.5, 'day').add(3, 'hour'),
-                itemProps: this.itemProps
-
+                start_time: moment.unix(formation.post_start_date[0]),
+                end_time: moment.unix(formation.post_end_date[0]),
+                itemProps: itemProps,
+                item: formation
             }
-        ];
+        });
+
+        const lastFormation = items.reduce(
+            (prev, current) => ((prev.start_time.isAfter(current.start_time)) ? prev : current)
+        );
+        const defaultTimeStart = this.state.timeStart;
+        const timeStart = (lastFormation.start_time.isAfter(moment())) ? moment(lastFormation.start_time).add(-2, 'day') : defaultTimeStart ;
+        const timeEnd = moment(timeStart).add(7, 'day');
+        this.setState({
+            formations: items,
+            timeStart:timeStart,
+            timeEnd:timeEnd
+        });
 
     }
 
-    handleOpenModal() {
-        this.setState({showModal: true});
+    formationTypesListener() {
+        const types = FormationStore.getFormationTypes();
+        const groups = types.map((type) => {
+            return {id: type.term_id, title: `Frm [code - ${type.term_id}]`}
+        });
+        this.setState({
+            formationTypes: groups
+        });
+    }
+
+    handleOpenModal(itemId, event) {
+        const formation = this.state.formations.find((formation) => {
+            return formation.id === itemId
+        });
+        this.setState({showModal: true, selectedFormation: formation});
     }
 
     handleCloseModal() {
@@ -92,13 +100,11 @@ export default class Front extends React.Component {
     }
 
     renderModal() {
-        let title = this.state.modalTitle;
-        let body = this.state.modalBody;
+        let {selectedFormation} = this.state;
         return (
             <FrontModal showModal={this.state.showModal}
                         handleCloseModal={this.handleCloseModal}
-                        modalTitle={title}
-                        modalBody={body}/>
+                        item={selectedFormation}/>
         )
     }
 
@@ -117,13 +123,15 @@ export default class Front extends React.Component {
         }
     }
 
+
     renderTimeline() {
         const containerStyle = {
             background: "#fff !important"
         };
+        const {formationTypes, formations,timeStart,timeEnd} = this.state;
         return (
             <div style={containerStyle}
-                 className="vc_row wpb_row vc_row-fluid padding_top_50  padding_bottom_150 background-grey">
+                 className="vc_row wpb_row vc_row-fluid padding_top_20  padding_bottom_150 background-grey">
                 <div className="wpb_column vc_column_container vc_col-sm-12">
                     <div className="vc_column-inner ">
                         <div className="wpb_wrapper">
@@ -140,12 +148,13 @@ export default class Front extends React.Component {
                                                 <i className="fa fa-angle-left"/>
                                             </div>
                                             <div>
-                                                <CustomTimeline groups={this.groups}
-                                                                items={this.items}
+                                                <CustomTimeline groups={formationTypes}
+                                                                items={formations}
                                                                 itemTouchSendsClick={true}
+                                                                onItemClick={this.handleOpenModal}
                                                                 onItemSelect={this.handleOpenModal}
-                                                                defaultTimeStart={moment().add(-12, 'hour')}
-                                                                defaultTimeEnd={moment().add(12, 'hour')}/>
+                                                                visibleTimeStart={timeStart}
+                                                                visibleTimeEnd={timeEnd}/>
                                             </div>
                                             <div onClick={this.timelineNavigation.bind(null, "right")}
                                                  className="timeline-nav timeline-nav-right">
@@ -164,13 +173,13 @@ export default class Front extends React.Component {
 
     renderComingFormation() {
         return (
-           <Formation title={"Formations à venir"}/>
+            <Formation title={"Formations à venir"} type={"coming"}/>
         )
     }
 
     renderPreviousFormation() {
         return (
-           <Formation title={"Historique formations"}/>
+            <Formation title={"Historique formations"} type={"previous"}/>
         )
     }
 

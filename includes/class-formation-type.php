@@ -195,7 +195,7 @@ class F_Formation_type extends Taxonomy_Core
                     if ($.inArray('action=add-tag', queryStringArr) !== -1) {
                         var xml = xhr.responseXML;
                         $response = $(xml).find('term_id').text();
-                        if ($response != "") {
+                        if ($response !== "") {
                             // Clear the thumb image
                             $('#f_formation_type-image-wrapper').html('');
                         }

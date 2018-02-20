@@ -27,9 +27,4 @@ export default class CustomTimeline extends Timeline {
                                   subHeaderLabelFormats={this.props.subHeaderLabelFormats}/>
         )
     }
-
-    componentDidMount(){
-        this.changeZoom(5);
-
-    }
 }

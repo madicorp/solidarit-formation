@@ -38,8 +38,11 @@ class FormationStore extends MainStore {
                 console.log("error", error)
             });
     }
+
+    registration(data){
+        return  axios.post("/formation/v2/inscrit-api",data)
+    }
 }
 
 const formationStore = new FormationStore();
-window.formationStore = formationStore;
 export default formationStore;

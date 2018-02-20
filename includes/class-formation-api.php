@@ -99,7 +99,17 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 
         function prepare_result_for_response($result, $request)
         {
-            return $result;
+            $response = array();
+            foreach ($result as $rslt){
+                $metas = get_post_meta($rslt->ID);
+                $taxonomies = wp_get_post_terms($rslt->ID, 'f-formation-type', array("fields" => "all"));
+                $rslt->formation_speaker = unserialize($metas["formation_speaker"][0]);
+                $rslt->post_start_date = $metas["f_formation_post_start_date"];
+                $rslt->post_end_date = $metas["f_formation_post_end_date"];
+                $rslt->formation_type = $taxonomies;
+                $response[]= $rslt;
+            }
+            return $response;
         }
 
         /**
@@ -113,7 +123,8 @@ if ( class_exists( 'WP_REST_Controller' ) ) {
 		public function get_items( $request ) {
 
             $args = array(
-                'post_type' => 'formation',);
+                'post_type' => 'formation',
+                );
             $query = new WP_Query($args);
             $data = $this->prepare_result_for_response($query->get_posts(), $request);
 

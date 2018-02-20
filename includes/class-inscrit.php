@@ -135,7 +135,7 @@ class F_Inscrit extends CPT_Core {
         $cmb->add_field(array(
             'name' => __('Formation inscrite', 'cmb2'),
             'desc' => __('', 'cmb2'),
-            'id' => $prefix . 'person_multicheckbox',
+            'id' => $prefix . '_person_formation',
             'type' => 'select',
             'options' => array($this, 'cmb2_get_formation_post_options'),
         ));

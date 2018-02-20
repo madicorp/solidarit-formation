@@ -27,18 +27,20 @@ export default class Formation extends React.Component {
             .on("formations", this.formationsListener.bind(this))
             .on("formationTypes", this.formationTypesListener.bind(this))
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         FormationStore
             .removeListener("formations", this.formationsListener)
             .removeListener("formationTypes", this.formationTypesListener);
     }
 
-    formationsListener(){
+    formationsListener() {
         this.setState({
             formations: FormationStore.getFormations()
         });
     }
-    formationTypesListener(){
+
+    formationTypesListener() {
         this.setState({
             formationTypes: FormationStore.getFormationTypes()
         });
@@ -46,7 +48,7 @@ export default class Formation extends React.Component {
 
 
     renderTypeCard(type) {
-        const {ID, name, description, image_meta} = type;
+        const {term_id, name, description, image_meta} = type;
         return (
             <div key={guid()} className="wpb_column vc_column_container vc_col-sm-3">
                 <div className="vc_column-inner ">
@@ -56,7 +58,8 @@ export default class Formation extends React.Component {
                                 <FormationImage id={image_meta[0] || 0} title={name}/>
                                 <div className="phb-content text-center">
                                     <h4>{name}</h4>
-                                    <p>{description}</p>
+                                    <h6>[code - {term_id}]</h6>
+                                    <p>{description.substring(0, 200) + ' ...'}</p>
                                 </div>
                             </a>
                         </div>
@@ -67,15 +70,31 @@ export default class Formation extends React.Component {
     }
 
     render() {
-        const {title} = this.props;
-        const {formationTypes} = this.state;
+        const {title, type} = this.props;
+        let selectedFormationTypes = [];
+        this.state.formations.filter((formation) => {
+            let filter = false;
+            if (type === "previous")
+                filter = moment.unix(formation.post_start_date[0]).isBefore(moment());
+            else
+                filter = moment.unix(formation.post_start_date[0]).isAfter(moment());
+            if (filter)
+                formation.formation_type.forEach((_type) => {
+                    selectedFormationTypes.push(_type.term_id)
+
+                });
+            return filter;
+        });
+        const formationTypes = this.state.formationTypes.filter((formationType) => {
+            return selectedFormationTypes.includes(formationType.term_id);
+        });
         return (
-            <div  className="vc_row wpb_row vc_row-fluid padding_top_50">
+            <div className="vc_row wpb_row vc_row-fluid padding_top_20">
                 <div className="wpb_column vc_column_container vc_col-sm-12">
                     <div className="vc_column-inner ">
                         <div className="wpb_wrapper">
                             <h4 className="box-title">{title}</h4>
-                            <div className="vc_row wpb_row vc_inner vc_row-fluid container">
+                            <div className="vc_row wpb_row vc_idier vc_row-fluid container">
                                 {formationTypes.map((type) => {
                                     return this.renderTypeCard(type);
                                 })}
@@ -95,6 +114,7 @@ function guid() {
             .toString(16)
             .substring(1);
     }
+
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
 }

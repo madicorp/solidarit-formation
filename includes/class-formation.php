@@ -107,7 +107,7 @@ class F_Formation extends CPT_Core
      */
     function cmb2_get_inscrit_post_options()
     {
-        return $this->cmb2_get_post_options(array('post_type' => 'inscrit', 'numberposts' => 5));
+        return $this->cmb2_get_post_options(array('post_type' => 'f-inscrit', 'numberposts' => 5));
     }
 
     /**
@@ -127,24 +127,43 @@ class F_Formation extends CPT_Core
             'title' => esc_html__('Formation Meta Box', 'formation'),
             'object_types' => array('formation'),
         ));
+        $group_formation_speaker_id = $cmb->add_field(array(
+            'id' => 'formation_speaker',
+            'type' => 'group',
+            'description' => __('Formateur', 'cmb2'),
+            'repeatable'  => false, // use false if you want non-repeatable group
+            'options' => array(
+                'group_title' => __('Formateur de la session', 'cmb2'), // since version 1.1.4, {#} gets replaced by row number
+            ),
+        ));
+
+        // Id's for group's fields only need to be unique for the group. Prefix is not needed.
+        $cmb->add_group_field($group_formation_speaker_id, array(
+            'name' => 'Nom du formateur',
+            'id' => 'name',
+            'type' => 'text',
+            // 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+        ));
+
+        $cmb->add_group_field($group_formation_speaker_id, array(
+            'name' => 'Fonction',
+            'id' => 'office',
+            'type' => 'text',
+        ));
         $cmb->add_field(array(
             'name' => 'Date de debut',
             'id' => $prefix . 'post_start_date',
             'type' => 'text_datetime_timestamp',
-            'date_format' => 'd/m/Y',
-            'time_format' => 'H:m',
         ));
         $cmb->add_field(array(
             'name' => 'Date de fin',
             'id' => $prefix . 'post_end_date',
             'type' => 'text_datetime_timestamp',
-            'date_format' => 'd/m/Y',
-            'time_format' => 'H:m',
         ));
         $cmb->add_field(array(
             'name' => __('La liste des inscrits', 'cmb2'),
             'desc' => __('', 'cmb2'),
-            'id' => $prefix . 'post_multicheckbox',
+            'id' => $prefix . 'inscrits',
             'type' => 'multicheck',
             'options' => array($this, 'cmb2_get_inscrit_post_options'),
         ));
