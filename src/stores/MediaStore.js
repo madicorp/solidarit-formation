@@ -11,7 +11,7 @@ class MediaStore extends MainStore {
         return this.url;
     }
     loadUrl(id){
-        axios.get(`/wp/v2/media/${id}`)
+        axios.get(`/wp-json/wp/v2/media/${id}`)
             .then(response => {
                 this.url = response.data;
                 this.emit("media", id);

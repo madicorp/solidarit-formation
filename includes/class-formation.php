@@ -75,6 +75,8 @@ class F_Formation extends CPT_Core
         add_filter('single_template', array($this, 'get_formation_board_single_template'));
         add_filter('archive_template', array($this, 'get_formation_board_archive_template'));
 
+        add_action('admin_head', array($this, 'add_css'));
+        add_action('admin_footer', array($this, 'add_script'));
     }
 
     /**
@@ -105,9 +107,19 @@ class F_Formation extends CPT_Core
      * Gets 5 posts for your_post_type and displays them as options
      * @return array An array of options that matches the CMB2 options array
      */
-    function cmb2_get_inscrit_post_options()
+    function query_inscrits($id)
     {
-        return $this->cmb2_get_post_options(array('post_type' => 'f-inscrit', 'numberposts' => 5));
+        $args = array(
+            'post_type' => 'f-inscrit',
+            'meta_key' => 'f_inscrit__person_formation',
+            'meta_query' => array(
+                array(
+                    'key' => 'f_inscrit__person_formation',
+                    'value' => $id,
+                ),
+            ),
+        );
+        return (new WP_Query($args))->posts;
     }
 
     /**
@@ -131,7 +143,7 @@ class F_Formation extends CPT_Core
             'id' => 'formation_speaker',
             'type' => 'group',
             'description' => __('Formateur', 'cmb2'),
-            'repeatable'  => false, // use false if you want non-repeatable group
+            'repeatable' => false, // use false if you want non-repeatable group
             'options' => array(
                 'group_title' => __('Formateur de la session', 'cmb2'), // since version 1.1.4, {#} gets replaced by row number
             ),
@@ -164,8 +176,8 @@ class F_Formation extends CPT_Core
             'name' => __('La liste des inscrits', 'cmb2'),
             'desc' => __('', 'cmb2'),
             'id' => $prefix . 'inscrits',
-            'type' => 'multicheck',
-            'options' => array($this, 'cmb2_get_inscrit_post_options'),
+            'type' => 'text',
+            'render_row_cb' => array($this, 'display_f_formation_inscrits'),
         ));
 
     }
@@ -252,5 +264,72 @@ class F_Formation extends CPT_Core
         }
 
 
+    }
+
+    function display_f_formation_inscrits($field_args, $field)
+    {
+        $list_inscrits = $this->query_inscrits(get_the_ID());
+        ?>
+        <div class="cmb-row cmb-repeat-group-wrap cmb-type-group">
+            <div class="cmb-td">
+                <div class="cmb-nested cmb-field-list cmb-repeatable-group non-sortable non-repeatable">
+                    <div class="postbox cmb-row cmb-repeatable-grouping">
+                        <div class="cmbhandle" title="Cliquer pour inverser"><br></div>
+                        <h3 class="cmb-group-title cmbhandle-title"><span><?= $field->args('name') ?></span></h3>
+                        <div class="inside cmb-td cmb-nested cmb-field-list">
+                            <table id="inscrits-table">
+                                <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($list_inscrits as $inscrit) : ?>
+                                    <tr>
+                                        <td><?= $inscrit->post_title ?></td>
+                                        <td><?= esc_html(get_post_meta($inscrit->ID, 'f_inscrit__person_email', true)) ?></td>
+                                        <td><?= esc_html(get_post_meta($inscrit->ID, 'f_inscrit__person_phone', true)) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    function add_css()
+    {
+        ?>
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+        <?php
+    }
+
+    function add_script()
+    {
+        ?>
+        <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#inscrits-table').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
+                    }
+                });
+            });
+        </script>
+        <?php
     }
 }

@@ -80,7 +80,7 @@ class F_Formation_type extends Taxonomy_Core
     }
 
     /*
-     * Add a form field in the new f_formation_type page
+     * Add a form field in the new f_formation_type pagemulticheck add_post_meta does not work
      * @since 1.0.0
     */
     public function add_f_formation_type_image($taxonomy)

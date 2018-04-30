@@ -4,6 +4,7 @@ var path = require('path');
 var webpack = require('webpack');
 var NODE_ENV = process.env.NODE_ENV || 'development';
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var Dotenv = require('dotenv-webpack');
 
 
 // This file is written in ES5 because it is run via Node.js and is not transpiled by babel. We want to support various versions of node, so it is best to not use any ES6 features even if newer versions support ES6 features out of the box.
@@ -36,8 +37,13 @@ var webpackConfig = {
             },
             {
                 test: /\.css$/,
-                loaders: ["style-loader","css-loader"]
+                loaders: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
+
         ]
     },
     resolve: {
@@ -46,6 +52,8 @@ var webpackConfig = {
     },
     node: {
         fs: "empty",
+        net: "empty",
+        tls: "empty",
         process: true
     },
 
@@ -55,8 +63,12 @@ var webpackConfig = {
             // NODE_ENV is used inside React to enable/disable features that should only
             // be used in development
             'process.env': {
-                NODE_ENV: JSON.stringify(NODE_ENV)
+                NODE_ENV: JSON.stringify(NODE_ENV),
             }
+        }),
+        new Dotenv({
+            path: (NODE_ENV === 'production') ? './.env.prod' : './.env.local',
+            //systemvars: true,
         }),
         new ExtractTextPlugin('[name].css')
     ]

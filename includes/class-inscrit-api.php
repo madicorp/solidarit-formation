@@ -178,9 +178,6 @@ if (class_exists('WP_REST_Controller')) {
             add_post_meta($post_id, $prefix.'_person_phone', $params['phone'], true);
             add_post_meta($post_id, $prefix . '_person_formation', $params['formation'], true);
 
-            add_post_meta($params['formation'], 'f_formation_inscrits', $post_id, true);
-
-
             return new WP_REST_Response( $post_id, 200 );
         }
 

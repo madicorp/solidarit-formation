@@ -1,4 +1,5 @@
 import React from 'react';
+import MainStore from '../../stores/MainStore';
 import FormationStore from '../../stores/FormationStore';
 import FormationImage from './formationImage';
 
@@ -17,12 +18,19 @@ export default class Formation extends React.Component {
         };
         this.formationsListener.bind(this);
         this.formationTypesListener.bind(this);
+        /*this.mainStore = new MainStore();
+        this.mainStore.authentication();*/
         FormationStore.loadFormations();
         FormationStore.loadFormationTypes();
+
     }
 
 
     componentWillMount() {
+        /*this.mainStore.on("authenticated", ()=> {
+            FormationStore.loadFormations();
+            FormationStore.loadFormationTypes();
+        });*/
         FormationStore
             .on("formations", this.formationsListener.bind(this))
             .on("formationTypes", this.formationTypesListener.bind(this))

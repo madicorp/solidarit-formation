@@ -77,3 +77,7 @@ node_modules
 # Other, add your own ignored things here.
 .idea/
 release
+
+# Env files
+
+.env*
